@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontax - Smart Business Cards</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 420px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .logo h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            letter-spacing: -1px;
+        }
+
+        .logo p {
+            color: rgba(255,255,255,0.9);
+            margin-top: 5px;
+            font-size: 1.1rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1), 0 0 0 1px rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+            animation: slideUp 0.8s ease-out 0.2s both;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .profile-section {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 2.5rem;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        .name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 4px;
+        }
+
+        .title {
+            font-size: 1.1rem;
+            color: #667eea;
+            font-weight: 500;
+        }
+
+        .company {
+            font-size: 1rem;
+            color: #718096;
+            font-weight: 400;
+            margin-top: 4px;
+        }
+
+        .info-grid {
+            display: grid;
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 12px 16px;
+            background: rgba(102, 126, 234, 0.08);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            cursor: pointer;
+        }
+
+        .info-item:hover {
+            background: rgba(102, 126, 234, 0.12);
+            border-color: rgba(102, 126, 234, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .info-item.clickable:hover {
+            background: rgba(102, 126, 234, 0.15);
+        }
+
+        .info-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            color: #667eea;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .info-content {
+            flex: 1;
+        }
+
+        .info-label {
+            font-size: 0.85rem;
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 2px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-text {
+            color: #4a5568;
+            font-weight: 500;
+            word-break: break-word;
+            line-height: 1.4;
+        }
+
+        .actions {
+            display: grid;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .btn {
+            padding: 14px 24px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            border: 2px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(102, 126, 234, 0.15);
+            border-color: rgba(102, 126, 234, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .download-section {
+            text-align: center;
+            animation: fadeIn 0.8s ease-out 0.6s both;
+        }
+
+        .download-title {
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .app-links {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .app-link {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 12px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #2d3748;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .app-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            background: white;
+        }
+
+        .loading {
+            text-align: center;
+            color: white;
+            font-size: 1.2rem;
+            animation: pulse 1.5s infinite;
+        }
+
+        .error {
+            background: rgba(245, 101, 101, 0.1);
+            border: 2px solid rgba(245, 101, 101, 0.2);
+            color: #e53e3e;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .debug-info {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            color: #4a5568;
+            border-left: 4px solid #667eea;
+        }
+
+        .debug-info pre {
+            background: #f7fafc;
+            padding: 8px;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin-top: 8px;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 16px;
+            }
+            
+            .card {
+                padding: 24px;
+            }
+            
+            .app-links {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <h1>Kontax</h1>
+            <p>Smart Business Cards</p>
+        </div>
+
+        <div id="debug-info" style="display: none;"></div>
+
+        <div id="content">
+            <div class="loading">
+                <div>Loading contact information...</div>
+            </div>
+        </div>
+
+        <div class="download-section">
+            <h3 class="download-title">Get the Kontax App</h3>
+            <div class="app-links">
+                <a href="#" class="app-link" id="android-link">
+                    📱 Android
+                </a>
+                <a href="#" class="app-link" id="ios-link">
+                    🍎 iOS
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample vCard data - replace with actual data from URL parameters or API
+        const sampleVCard = {
+            firstName: "John",
+            lastName: "Doe",
+            fullName: "John Doe",
+            title: "Senior Software Engineer",
+            company: "Tech Innovations Inc.",
+            department: "Engineering",
+            phone: "+1 (555) 123-4567",
+            mobile: "+1 (555) 987-6543",
+            email: "john.doe@email.com",
+            workEmail: "j.doe@company.com", 
+            website: "www.johndoe.dev",
+            linkedin: "linkedin.com/in/johndoe",
+            twitter: "@johndoe",
+            address: "123 Tech Street, Silicon Valley, CA",
+            workAddress: "456 Corporate Blvd, Tech City, CA",
+            notes: "Available for consulting projects",
+            birthday: "1990-01-15",
+            anniversary: "2020-06-01"
+        };
+
+        // App store links - replace with actual links
+        const appLinks = {
+            android: "https://play.google.com/store/apps/details?id=com.kontax.app",
+            ios: "https://apps.apple.com/app/kontax/id123456789"
+        };
+
+        // Define all possible vCard fields and their display properties
+        const vCardFields = {
+            // Basic Info
+            firstName: { icon: "👤", label: "First Name" },
+            lastName: { icon: "👤", label: "Last Name" },
+            fullName: { icon: "👤", label: "Full Name" },
+            nickname: { icon: "😊", label: "Nickname" },
+            
+            // Professional
+            title: { icon: "💼", label: "Job Title" },
+            company: { icon: "🏢", label: "Company" },
+            department: { icon: "🏛️", label: "Department" },
+            role: { icon: "⚡", label: "Role" },
+            
+            // Contact Info
+            phone: { icon: "📞", label: "Phone", clickable: true, action: "tel:" },
+            mobile: { icon: "📱", label: "Mobile", clickable: true, action: "tel:" },
+            workPhone: { icon: "☎️", label: "Work Phone", clickable: true, action: "tel:" },
+            fax: { icon: "📠", label: "Fax" },
+            
+            // Email
+            email: { icon: "📧", label: "Email", clickable: true, action: "mailto:" },
+            workEmail: { icon: "💼", label: "Work Email", clickable: true, action: "mailto:" },
+            personalEmail: { icon: "📮", label: "Personal Email", clickable: true, action: "mailto:" },
+            
+            // Web & Social
+            website: { icon: "🌐", label: "Website", clickable: true, action: "https://" },
+            linkedin: { icon: "💼", label: "LinkedIn", clickable: true, action: "https://" },
+            twitter: { icon: "🐦", label: "Twitter", clickable: true, action: "https://twitter.com/" },
+            facebook: { icon: "📘", label: "Facebook", clickable: true, action: "https://facebook.com/" },
+            instagram: { icon: "📷", label: "Instagram", clickable: true, action: "https://instagram.com/" },
+            github: { icon: "👨‍💻", label: "GitHub", clickable: true, action: "https://github.com/" },
+            
+            // Address
+            address: { icon: "📍", label: "Address" },
+            workAddress: { icon: "🏢", label: "Work Address" },
+            homeAddress: { icon: "🏠", label: "Home Address" },
+            
+            // Personal
+            birthday: { icon: "🎂", label: "Birthday" },
+            anniversary: { icon: "💍", label: "Anniversary" },
+            notes: { icon: "📝", label: "Notes" },
+            
+            // Additional fields
+            skype: { icon: "💬", label: "Skype" },
+            whatsapp: { icon: "💬", label: "WhatsApp", clickable: true, action: "https://wa.me/" },
+            telegram: { icon: "✈️", label: "Telegram" },
+            discord: { icon: "🎮", label: "Discord" }
+        };
+
+        function getInitials(name) {
+            if (!name) return "?";
+            return name.split(' ').map(word => word[0]).join('').toUpperCase().substring(0, 2);
+        }
+
+        function createVCardFile(data) {
+            let vcard = `BEGIN:VCARD\nVERSION:3.0\n`;
+            
+            if (data.fullName || data.firstName || data.lastName) {
+                const fullName = data.fullName || `${data.firstName || ''} ${data.lastName || ''}`.trim();
+                vcard += `FN:${fullName}\n`;
+                if (data.firstName || data.lastName) {
+                    vcard += `N:${data.lastName || ''};${data.firstName || ''};;;\n`;
+                }
+            }
+            
+            if (data.company) vcard += `ORG:${data.company}\n`;
+            if (data.title) vcard += `TITLE:${data.title}\n`;
+            if (data.phone) vcard += `TEL;TYPE=WORK,VOICE:${data.phone}\n`;
+            if (data.mobile) vcard += `TEL;TYPE=CELL:${data.mobile}\n`;
+            if (data.email) vcard += `EMAIL;TYPE=WORK:${data.email}\n`;
+            if (data.personalEmail) vcard += `EMAIL;TYPE=HOME:${data.personalEmail}\n`;
+            if (data.website) vcard += `URL:${data.website}\n`;
+            if (data.address) vcard += `ADR;TYPE=WORK:;;${data.address};;;;\n`;
+            if (data.birthday) vcard += `BDAY:${data.birthday}\n`;
+            if (data.notes) vcard += `NOTE:${data.notes}\n`;
+            
+            vcard += `END:VCARD`;
+            return vcard;
+        }
+
+        function downloadVCard(data) {
+            const vcard = createVCardFile(data);
+            const blob = new Blob([vcard], { type: 'text/vcard' });
+            const url = window.URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            const fileName = (data.fullName || data.firstName || 'contact').replace(/\s+/g, '_');
+            a.download = `${fileName}.vcf`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        function saveToContacts(data) {
+            // Try Web Contacts API first (limited browser support)
+            if ('contacts' in navigator && 'ContactsManager' in window) {
+                const contact = new window.Contact({
+                    name: [data.fullName || `${data.firstName || ''} ${data.lastName || ''}`.trim()],
+                    tel: [data.phone, data.mobile].filter(Boolean),
+                    email: [data.email, data.personalEmail].filter(Boolean)
+                });
+                
+                navigator.contacts.save(contact).then(() => {
+                    alert('Contact saved successfully!');
+                }).catch(() => {
+                    downloadVCard(data);
+                });
+            } else {
+                // Fallback to download vCard
+                downloadVCard(data);
+            }
+        }
+
+        function handleInfoClick(field, value, data) {
+            const fieldConfig = vCardFields[field];
+            if (!fieldConfig || !fieldConfig.clickable) return;
+
+            let url = value;
+            if (fieldConfig.action) {
+                if (fieldConfig.action.startsWith('http') && !value.startsWith('http')) {
+                    url = fieldConfig.action + (fieldConfig.action.endsWith('/') ? '' : '/') + value.replace(/^@/, '');
+                } else if (!value.startsWith(fieldConfig.action.replace(':', ''))) {
+                    url = fieldConfig.action + value;
+                }
+            }
+
+            window.open(url, '_blank');
+        }
+
+        function renderVCard(data) {
+            const displayName = data.fullName || `${data.firstName || ''} ${data.lastName || ''}`.trim() || 'Unknown Contact';
+            const initials = getInitials(displayName);
+            
+            // Build info items for all available fields
+            let infoItems = '';
+            
+            Object.keys(data).forEach(field => {
+                const value = data[field];
+                const fieldConfig = vCardFields[field];
+                
+                if (value && fieldConfig && field !== 'fullName' && field !== 'firstName' && field !== 'lastName') {
+                    const isClickable = fieldConfig.clickable ? 'clickable' : '';
+                    const clickHandler = fieldConfig.clickable ? `onclick="handleInfoClick('${field}', '${value}', currentVCard)"` : '';
+                    
+                    infoItems += `
+                        <div class="info-item ${isClickable}" ${clickHandler}>
+                            <div class="info-icon">${fieldConfig.icon}</div>
+                            <div class="info-content">
+                                <div class="info-label">${fieldConfig.label}</div>
+                                <div class="info-text">${value}</div>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+            
+            return `
+                <div class="card">
+                    <div class="profile-section">
+                        <div class="avatar">${initials}</div>
+                        <div class="name">${displayName}</div>
+                        ${data.title ? `<div class="title">${data.title}</div>` : ''}
+                        ${data.company ? `<div class="company">${data.company}</div>` : ''}
+                    </div>
+
+                    ${infoItems ? `
+                    <div class="info-grid">
+                        ${infoItems}
+                    </div>` : ''}
+
+                    <div class="actions">
+                        <button class="btn btn-primary" onclick="saveToContacts(currentVCard)">
+                            💾 Save Contact
+                        </button>
+                        <button class="btn btn-secondary" onclick="downloadVCard(currentVCard)">
+                            📥 Download vCard
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getVCardFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const debugInfo = {
+                currentURL: window.location.href,
+                searchParams: window.location.search,
+                allParams: Object.fromEntries(urlParams)
+            };
+
+            // Method 1: Base64 encoded data
+            const encodedData = urlParams.get('data');
+            if (encodedData) {
+                try {
+                    const decodedData = atob(encodedData);
+                    const parsedData = JSON.parse(decodedData);
+                    debugInfo.method = 'Base64 Encoded';
+                    debugInfo.decodedData = parsedData;
+                    showDebugInfo(debugInfo);
+                    return parsedData;
+                } catch (e) {
+                    console.error('Error decoding vCard data:', e);
+                    debugInfo.error = 'Failed to decode Base64 data';
+                }
+            }
+            
+            // Method 2: Individual URL parameters - Extract ALL available parameters
+            const extractedData = {};
+            let hasData = false;
+            
+            // Check all possible vCard fields from URL parameters
+            Object.keys(vCardFields).forEach(field => {
+                const value = urlParams.get(field);
+                if (value) {
+                    extractedData[field] = decodeURIComponent(value);
+                    hasData = true;
+                }
+            });
+            
+            // Also check common alternative parameter names
+            const alternativeNames = {
+                'name': 'fullName',
+                'job': 'title',
+                'position': 'title',
+                'org': 'company',
+                'organization': 'company',
+                'tel': 'phone',
+                'telephone': 'phone',
+                'cell': 'mobile',
+                'cellphone': 'mobile',
+                'mail': 'email',
+                'web': 'website',
+                'url': 'website',
+                'site': 'website',
+                'addr': 'address',
+                'location': 'address'
+            };
+            
+            Object.keys(alternativeNames).forEach(altName => {
+                const value = urlParams.get(altName);
+                if (value && !extractedData[alternativeNames[altName]]) {
+                    extractedData[alternativeNames[altName]] = decodeURIComponent(value);
+                    hasData = true;
+                }
+            });
+            
+            if (hasData) {
+                debugInfo.method = 'URL Parameters';
+                debugInfo.extractedData = extractedData;
+                showDebugInfo(debugInfo);
+                return extractedData;
+            }
+            
+            // Method 3: vCard ID to fetch from server/database
+            const cardId = urlParams.get('id');
+            if (cardId) {
+                debugInfo.method = 'Card ID';
+                debugInfo.cardId = cardId;
+                debugInfo.note = 'Using sample data for demo';
+                showDebugInfo(debugInfo);
+                return sampleVCard;
+            }
+            
+            debugInfo.method = 'No Data Found';
+            debugInfo.note = 'Using sample data for demo';
+            showDebugInfo(debugInfo);
+            return null;
+        }
+
+        function showDebugInfo(info) {
+            const debugElement = document.getElementById('debug-info');
+            debugElement.style.display = 'block';
+            debugElement.innerHTML = `
+                <div class="debug-info">
+                    <strong>🔍 Debug Information</strong>
+                    <pre>${JSON.stringify(info, null, 2)}</pre>
+                    <button onclick="toggleDebug()" style="margin-top: 8px; padding: 4px 8px; border: none; background: #667eea; color: white; border-radius: 4px; cursor: pointer;">Hide Debug</button>
+                </div>
+            `;
+        }
+
+        function toggleDebug() {
+            const debugElement = document.getElementById('debug-info');
+            debugElement.style.display = debugElement.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function showError(message) {
+            document.getElementById('content').innerHTML = `
+                <div class="error">
+                    <h3>⚠️ No Contact Data Found</h3>
+                    <p>${message}</p>
+                    <div style="margin-top: 16px;">
+                        <button class="btn btn-primary" onclick="loadSampleData()" style="width: 100%;">
+                            📋 Load Sample Contact for Demo
+                        </button>
+                    </div>
+                    <div style="margin-top: 20px; padding: 16px; background: rgba(102, 126, 234, 0.05); border-radius: 8px; font-size: 0.9rem; color: #4a5568;">
+                        <strong>Supported URL Parameters:</strong><br>
+                        <code style="display: block; margin-top: 8px; padding: 8px; background: white; border-radius: 4px; font-size: 0.8rem;">
+                        ?name=John+Doe&title=Engineer&company=TechCorp&phone=%2B1-555-1234&email=john@email.com&website=johndoe.com&address=123+Main+St
+                        </code>
+                    </div>
+                </div>
+            `;
+        }
+
+        function loadSampleData() {
+            currentVCard = sampleVCard;
+            document.getElementById('content').innerHTML = renderVCard(sampleVCard);
+            showDebugInfo({
+                method: 'Sample Data Loaded',
+                sampleData: sampleVCard
+            });
+        }
+
+        // Global variable to store current vCard data
+        let currentVCard = null;
+
+        // Initialize the page
+        function init() {
+            // Set up app store links
+            document.getElementById('android-link').href = appLinks.android;
+            document.getElementById('ios-link').href = appLinks.ios;
+
+            // Get vCard data
+            const vCardData = getVCardFromURL();
+            
+            if (vCardData && (vCardData.fullName || vCardData.firstName || vCardData.name)) {
+                currentVCard = vCardData;
+                document.getElementById('content').innerHTML = renderVCard(vCardData);
+            } else {
+                showError('No contact information found in URL parameters.');
+            }
+        }
+
+        // Load when DOM is ready
+        document.addEventListener('DOMContentLoaded', init);
+
+        // Handle sharing if Web Share API is available
+        function shareContact() {
+            if (navigator.share && currentVCard) {
+                const name = currentVCard.fullName || `${currentVCard.firstName || ''} ${currentVCard.lastName || ''}`.trim();
+                navigator.share({
+                    title: `${name} - Contact`,
+                    text: `Contact information for ${name}`,
+                    url: window.location.href
+                });
+            }
+        }
+
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (currentVCard) {
+                if (e.key === 's' && (e.ctrlKey || e.metaKey)) {
+                    e.preventDefault();
+                    saveToContacts(currentVCard);
+                } else if (e.key === 'd' && (e.ctrlKey || e.metaKey)) {
+                    e.preventDefault();
+                    downloadVCard(currentVCard);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
