@@ -418,6 +418,8 @@
             whatsapp: { icon: "💬", label: "WhatsApp", clickable: true, action: "https://wa.me/" },
             telegram: { icon: "✈️", label: "Telegram" },
             discord: { icon: "🎮", label: "Discord" }
+
+            
         };
 
         function getInitials(name) {
@@ -425,31 +427,64 @@
             return name.split(' ').map(word => word[0]).join('').toUpperCase().substring(0, 2);
         }
 
-        function createVCardFile(data) {
-            let vcard = `BEGIN:VCARD\nVERSION:3.0\n`;
+        // function createVCardFile(data) {
+        //     let vcard = `BEGIN:VCARD\nVERSION:3.0\n`;
             
-            if (data.fullName || data.firstName || data.lastName) {
-                const fullName = data.fullName || `${data.firstName || ''} ${data.lastName || ''}`.trim();
-                vcard += `FN:${fullName}\n`;
-                if (data.firstName || data.lastName) {
-                    vcard += `N:${data.lastName || ''};${data.firstName || ''};;;\n`;
-                }
-            }
+        //     if (data.fullName || data.firstName || data.lastName) {
+        //         const fullName = data.fullName || `${data.firstName || ''} ${data.lastName || ''}`.trim();
+        //         vcard += `FN:${fullName}\n`;
+        //         if (data.firstName || data.lastName) {
+        //             vcard += `N:${data.lastName || ''};${data.firstName || ''};;;\n`;
+        //         }
+        //     }
             
-            if (data.company) vcard += `ORG:${data.company}\n`;
-            if (data.title) vcard += `TITLE:${data.title}\n`;
-            if (data.phone) vcard += `TEL;TYPE=WORK,VOICE:${data.phone}\n`;
-            if (data.mobile) vcard += `TEL;TYPE=CELL:${data.mobile}\n`;
-            if (data.email) vcard += `EMAIL;TYPE=WORK:${data.email}\n`;
-            if (data.personalEmail) vcard += `EMAIL;TYPE=HOME:${data.personalEmail}\n`;
-            if (data.website) vcard += `URL:${data.website}\n`;
-            if (data.address) vcard += `ADR;TYPE=WORK:;;${data.address};;;;\n`;
-            if (data.birthday) vcard += `BDAY:${data.birthday}\n`;
-            if (data.notes) vcard += `NOTE:${data.notes}\n`;
+        //     if (data.company) vcard += `ORG:${data.company}\n`;
+        //     if (data.title) vcard += `TITLE:${data.title}\n`;
+        //     if (data.phone) vcard += `TEL;TYPE=WORK,VOICE:${data.phone}\n`;
+        //     if (data.mobile) vcard += `TEL;TYPE=CELL:${data.mobile}\n`;
             
-            vcard += `END:VCARD`;
-            return vcard;
-        }
+        //     if (data.email) vcard += `EMAIL;TYPE=WORK:${data.email}\n`;
+        //     if (data.personalEmail) vcard += `EMAIL;TYPE=HOME:${data.personalEmail}\n`;
+        //     if (data.website) vcard += `URL:${data.website}\n`;
+        //     if (data.address) vcard += `ADR;TYPE=WORK:;;${data.address};;;;\n`;
+        //     if (data.birthday) vcard += `BDAY:${data.birthday}\n`;
+        //     if (data.notes) vcard += `NOTE:${data.notes}\n`;
+            
+        //     vcard += `END:VCARD`;
+        //     return vcard;
+        // }
+function createVCardFile(data) {
+  let vcard = `BEGIN:VCARD\nVERSION:3.0\n`;
+
+  if (data.fullName || data.firstName || data.lastName) {
+    const fullName = data.fullName || `${data.firstName || ''} ${data.lastName || ''}`.trim();
+    vcard += `FN:${fullName}\n`;
+    if (data.firstName || data.lastName) {
+      vcard += `N:${data.lastName || ''};${data.firstName || ''};;;\n`;
+    }
+  }
+
+  if (data.company) vcard += `ORG:${data.company}\n`;
+  if (data.title) vcard += `TITLE:${data.title}\n`;
+  if (data.phone) vcard += `TEL;TYPE=WORK,VOICE:${data.phone}\n`;
+  if (data.mobile) vcard += `TEL;TYPE=CELL:${data.mobile}\n`;
+  if (data.email) vcard += `EMAIL;TYPE=WORK:${data.email}\n`;
+  if (data.personalEmail) vcard += `EMAIL;TYPE=HOME:${data.personalEmail}\n`;
+  if (data.website) vcard += `URL:${data.website}\n`;
+  if (data.address) vcard += `ADR;TYPE=WORK:;;${data.address};;;;\n`;
+  if (data.birthday) vcard += `BDAY:${data.birthday}\n`;
+  if (data.notes) vcard += `NOTE:${data.notes}\n`;
+
+  // 👇 Add custom event fields
+  if (data.eventTitle) vcard += `X-EVENT-TITLE:${data.eventTitle}\n`;
+  if (data.eventDate) vcard += `X-EVENT-DATE:${data.eventDate}\n`; // format: YYYY-MM-DD
+  if (data.eventEndTime) vcard += `X-EVENT-END:${data.eventEndTime}\n`; // format: HH:MM or full ISO
+  if (data.eventLocation) vcard += `X-EVENT-LOCATION:${data.eventLocation}\n`;
+  if (data.eventDescription) vcard += `X-EVENT-DESCRIPTION:${data.eventDescription}\n`;
+
+  vcard += `END:VCARD`;
+  return vcard;
+}
 
         function downloadVCard(data) {
             const vcard = createVCardFile(data);
