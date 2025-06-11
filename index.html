@@ -571,6 +571,7 @@ function createVCardFile(data) {
                         <div class="name">${displayName}</div>
                         ${data.title ? `<div class="title">${data.title}</div>` : ''}
                         ${data.company ? `<div class="company">${data.company}</div>` : ''}
+                         ${data.eventIntent? `<div class="intent">${data.eventIntent}</div>` : ''}
                     </div>
 
                     ${infoItems ? `
