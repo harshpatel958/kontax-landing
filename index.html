@@ -679,15 +679,15 @@ function createVCardFile(data) {
         }
 
         function showDebugInfo(info) {
-            const debugElement = document.getElementById('debug-info');
-            debugElement.style.display = 'block';
-            debugElement.innerHTML = `
-                <div class="debug-info">
-                    <strong>🔍 Debug Information</strong>
-                    <pre>${JSON.stringify(info, null, 2)}</pre>
-                    <button onclick="toggleDebug()" style="margin-top: 8px; padding: 4px 8px; border: none; background: #667eea; color: white; border-radius: 4px; cursor: pointer;">Hide Debug</button>
-                </div>
-            `;
+            // const debugElement = document.getElementById('debug-info');
+            // debugElement.style.display = 'block';
+            // debugElement.innerHTML = `
+            //     <div class="debug-info">
+            //         <strong>🔍 Debug Information</strong>
+            //         <pre>${JSON.stringify(info, null, 2)}</pre>
+            //         <button onclick="toggleDebug()" style="margin-top: 8px; padding: 4px 8px; border: none; background: #667eea; color: white; border-radius: 4px; cursor: pointer;">Hide Debug</button>
+            //     </div>
+            // `;
         }
 
         function toggleDebug() {
